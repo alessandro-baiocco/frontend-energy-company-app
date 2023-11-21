@@ -6,7 +6,7 @@ import UserBoard from "./components/UserBoard";
 
 function App() {
   return (
-    <div className="App bg-dark pb-5">
+    <div className="App bg-dark pb-5 min-height">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LogPage />} />
