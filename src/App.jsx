@@ -5,6 +5,7 @@ import LogPage from "./components/LoginPage";
 import UserBoard from "./components/UserBoard";
 import AdminBoard from "./components/AdminBoard";
 import RegisterPage from "./components/RegisterPage";
+import FormSaveClient from "./components/FormSaveClient";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/user" element={<UserBoard />} />
           <Route path="/admin" element={<AdminBoard />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/add-client" element={<FormSaveClient />} />
         </Routes>
       </BrowserRouter>
     </div>
