@@ -6,7 +6,7 @@ const UserBoard = () => {
     <Container>
       <h1 className="text-white mb-5">Welcome User</h1>
       <Container className="mb-3">
-        {/* <button
+        <button
           className="btn btn-primary"
           type="button"
           data-bs-toggle="collapse"
@@ -15,8 +15,8 @@ const UserBoard = () => {
           aria-controls="collapseFormFilter"
         >
           Toggle width collapse
-        </button> */}
-        <Form className="" id="collapseFormFilter">
+        </button>
+        <Form className="collapse" id="collapseFormFilter">
           <Form.Select aria-label="Default select example">
             <option>Ordina per:</option>
             <option value="1">Nome</option>
