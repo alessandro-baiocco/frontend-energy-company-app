@@ -1,14 +1,24 @@
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const LogPage = () => {
+const RegisterPage = () => {
   return (
     <Container className="vh-100 d-flex align-items-center justify-content-between">
       <Container className="w-50 text-white">
         <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3">
+            <Form.Label>Nome</Form.Label>
+            <Form.Control type="text" placeholder="Nome" />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Cognome</Form.Label>
+            <Form.Control type="text" placeholder="Cognome" />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
             <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
@@ -21,16 +31,17 @@ const LogPage = () => {
           <Form.Group className="mb-3 text-start" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
-          <Button variant="primary" type="submit" className="me-3">
-            LOG IN
-          </Button>
-          <Link to="/register">
-            <Button variant="success">Registrati</Button>
-          </Link>
+          <div className="d-flex justify-content-between align items-center">
+            <Button variant="primary" type="submit" className="me-3">
+              REGISTRATI
+            </Button>
+            <Link to="/">
+              <Button variant="danger">Back to LOG IN</Button>
+            </Link>
+          </div>
         </Form>
       </Container>
     </Container>
   );
 };
-
-export default LogPage;
+export default RegisterPage;
