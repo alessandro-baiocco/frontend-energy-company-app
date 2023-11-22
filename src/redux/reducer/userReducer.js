@@ -1,4 +1,4 @@
-import { GET_AUTHORIZATION } from "../action";
+import { GET_AUTHORIZATION } from "../actions";
 
 const initialState = {
   content: null,
