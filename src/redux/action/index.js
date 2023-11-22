@@ -22,3 +22,26 @@ export const getClients = (auth) => {
     }
   };
 };
+
+export const postUserToken = (emailPAss) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: emailPAss,
+      });
+      if (resp.ok) {
+        let myToken = await resp.json();
+        dispatch({ type: GET_CLIENTS, payload: myToken });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati experience ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

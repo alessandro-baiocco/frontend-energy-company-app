@@ -4,6 +4,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
 import clientReducer from "../reducer/ClientReducer";
+import userReducer from "../reducer/userReducer";
 
 const persistConfig = {
   key: "root",
@@ -11,6 +12,7 @@ const persistConfig = {
   whitelist: [],
 };
 const rootReducer = combineReducers({
+  userToken: userReducer,
   clients: clientReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
