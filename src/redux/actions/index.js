@@ -26,7 +26,7 @@ export const getClients = (auth) => {
 export const postUserToken = (emailPAss) => {
   return async (dispatch, getState) => {
     try {
-      let resp = await fetch("http://localhost:8080/clients", {
+      let resp = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
