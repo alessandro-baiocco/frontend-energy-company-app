@@ -6,6 +6,7 @@ import UserBoard from "./components/UserBoard";
 import AdminBoard from "./components/AdminBoard";
 import RegisterPage from "./components/RegisterPage";
 import FormSaveClient from "./components/FormSaveClient";
+import FormUpdateClient from "./components/FormUpdateClient";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/admin" element={<AdminBoard />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/add-client" element={<FormSaveClient />} />
+          <Route path="/update-client" element={<FormUpdateClient />} />
         </Routes>
       </BrowserRouter>
     </div>
