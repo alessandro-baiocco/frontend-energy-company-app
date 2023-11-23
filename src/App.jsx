@@ -7,6 +7,7 @@ import AdminBoard from "./components/AdminBoard";
 import RegisterPage from "./components/RegisterPage";
 import FormSaveClient from "./components/FormSaveClient";
 import FormUpdateClient from "./components/FormUpdateClient";
+import Board from "./components/Board";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LogPage />} />
-          <Route path="/user" element={<UserBoard />} />
-          <Route path="/admin" element={<AdminBoard />} />
+          {/* <Route path="/user" element={<UserBoard />} />
+          <Route path="/admin" element={<AdminBoard />} /> */}
+          <Route path="/board" element={<Board />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/add-client" element={<FormSaveClient />} />
           <Route path="/update-client" element={<FormUpdateClient />} />

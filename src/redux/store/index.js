@@ -5,6 +5,8 @@ import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
 import userReducer from "../reducer/userReducer";
 import clientReducer from "../reducer/clientReducer";
+import meReducer from "../reducer/me";
+import addressReducer from "../reducer/addressReducer";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +17,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   userToken: userReducer,
   clients: clientReducer,
+  address: addressReducer,
+  me: meReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

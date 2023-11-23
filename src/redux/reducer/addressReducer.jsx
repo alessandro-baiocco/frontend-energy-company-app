@@ -1,12 +1,12 @@
-import { GET_CLIENTS } from "../actions";
+import { GET_ADDRESS } from "../actions";
 
 const initialState = {
   content: [],
 };
 
-const clientReducer = (state = initialState, action) => {
+const addressReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CLIENTS:
+    case GET_ADDRESS:
       return {
         content: action.payload,
       };
@@ -15,4 +15,4 @@ const clientReducer = (state = initialState, action) => {
   }
 };
 
-export default clientReducer;
+export default addressReducer;

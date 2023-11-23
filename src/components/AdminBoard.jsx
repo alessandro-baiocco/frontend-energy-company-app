@@ -2,15 +2,17 @@ import { Button, Collapse, Container, Form, Image, Nav, Navbar, Row } from "reac
 import ClientCard from "./ClientCard";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AdminBoard = () => {
   const [open, setOpen] = useState(false);
+  const me = useSelector((state) => state.me.content);
 
   return (
     <>
       <Navbar expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary mb-3">
         <Container>
-          <Navbar.Brand href="#home">Welcome Admin</Navbar.Brand>
+          <Navbar.Brand href="#home">Welcome Admin {me.nome}</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">

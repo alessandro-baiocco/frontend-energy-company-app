@@ -1,13 +1,15 @@
 import { Button, Col, Collapse, Container, Form, Image, Row } from "react-bootstrap";
 import ClientCard from "./ClientCard";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const UserBoard = () => {
   const [open, setOpen] = useState(false);
+  const me = useSelector((state) => state.me.content);
 
   return (
     <Container>
-      <h1 className="text-white mb-5 text-center">Welcome User</h1>
+      <h1 className="text-white mb-5 text-center">Welcome User {me.nome}</h1>
       <Container className="mb-3">
         <Button
           className="mb-3"
