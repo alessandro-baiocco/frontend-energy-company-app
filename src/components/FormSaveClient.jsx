@@ -75,7 +75,7 @@ const FormSaveClient = () => {
             <Button variant="primary" type="submit" className="me-3">
               salva cliente
             </Button>
-            <Link to="/admin">
+            <Link to="/board">
               <Button variant="danger">Back client</Button>
             </Link>
           </div>

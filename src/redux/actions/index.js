@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 export const GET_CLIENTS = "GET_CLIENTS";
 export const GET_AUTHORIZATION = "GET_AUTHORIZATION";
 export const GET_ME = "GET_ME";
@@ -32,6 +34,7 @@ export const postUserToken = (emailPAss) => {
             dispatch({ type: GET_ME, payload: me });
           } else {
             console.log("error");
+
             alert("Errore nel reperimento dei dati utente ");
           }
         } catch (error) {
@@ -39,6 +42,7 @@ export const postUserToken = (emailPAss) => {
         }
       } else {
         console.log("error");
+
         alert("Errore nel reperimento del token ");
       }
     } catch (error) {

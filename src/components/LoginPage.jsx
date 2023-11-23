@@ -17,9 +17,9 @@ const LogPage = () => {
 
   const handleSumbit = (e) => {
     e.preventDefault();
+
     dispatch(postUserToken(userLogin));
-    // dispatch(userMe(bearerToken));
-    // console.log(me);
+
     navigate("/board");
   };
 

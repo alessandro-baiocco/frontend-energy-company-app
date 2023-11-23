@@ -11,7 +11,7 @@ import addressReducer from "../reducer/addressReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: ["me", "userToken"],
 };
 
 const rootReducer = combineReducers({
