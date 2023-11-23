@@ -42,7 +42,6 @@ export const postUserToken = (emailPAss) => {
         }
       } else {
         console.log("error");
-
         alert("Errore nel reperimento del token ");
       }
     } catch (error) {
