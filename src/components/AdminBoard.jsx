@@ -147,7 +147,14 @@ const AdminBoard = () => {
                 />
               </div>
             </Form.Group>
-            <Button variant="primary">Submit</Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleDataInserimentoFilter();
+              }}
+            >
+              Submit
+            </Button>
           </>
         );
       case "#dataContatto":

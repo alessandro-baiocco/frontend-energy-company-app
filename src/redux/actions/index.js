@@ -234,3 +234,28 @@ export const getClientMaxDataInserimento = (auth, maxDataInserimento) => {
     }
   };
 };
+
+export const getClientRangeDataInserimento = (auth, minInserimento, maxInserimento) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch(
+        "http://localhost:8080/clients/dataDiInserimento?to=" + minInserimento + "&from=" + maxInserimento,
+        {
+          headers: {
+            Authorization: "Bearer " + auth,
+          },
+        }
+      );
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
