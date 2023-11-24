@@ -286,9 +286,10 @@ export const deleteClient = (auth, id) => {
 export const addClient = (auth, client) => {
   return async (dispatch, getState) => {
     try {
-      let resp = await fetch("http://localhost:8080/clients/", {
+      let resp = await fetch("http://localhost:8080/clients", {
         headers: {
           Authorization: "Bearer " + auth,
+          "Content-Type": "application/json",
         },
         method: "POST",
         body: JSON.stringify(client),
