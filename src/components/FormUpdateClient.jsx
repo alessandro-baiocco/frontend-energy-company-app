@@ -1,9 +1,21 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 
 const FormUpdateClient = () => {
+  const auth = useSelector((state) => state.userToken.content);
+  const location = useLocation();
+  const key = location.state?.key;
+  useEffect(() => {
+    fetch("http://localhost:8080/clients/" + key, {
+      headers: {
+        Authorization: "Bearer " + auth,
+      },
+    });
+  }, []);
   return (
     <Container className="justify-content-between">
       <Container className="w-50 text-white">

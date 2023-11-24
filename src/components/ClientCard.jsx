@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getClientNomeContatto, getClients } from "../redux/actions";
+import { Link, useNavigate } from "react-router-dom";
+import { deleteClient, getClientNomeContatto, getClients } from "../redux/actions";
 
 const ClientCard = () => {
   const role = useSelector((state) => state.me.content.role);
   const clients = useSelector((state) => state.clients.content);
   const auth = useSelector((state) => state.userToken.content);
+  const dispatch = useDispatch();
   useEffect(() => {
     // Esegui azioni in risposta al cambio dello store
-  }, [clients]);
+  }, [clients, clients.length]);
+
   return (
     <Container>
       {
@@ -19,7 +21,7 @@ const ClientCard = () => {
         clients.length > 0 &&
           clients.map((client) => {
             return (
-              <div className="card mb-3">
+              <div className="card mb-3" key={client.id}>
                 <div className="row g-0">
                   <div className="col-md-2">
                     <img src={client.logo} className="img-fluid rounded-start" alt="logo_azienda_cliente" />
@@ -59,13 +61,20 @@ const ClientCard = () => {
                   </div>
                   {role === "ADMIN" && (
                     <div className="col-md-2">
-                      <Link to="/update-client">
+                      <Link to={{ pathname: "/update-client", state: { key: client.id } }}>
                         <Button variant="primary me-2">
                           <i className="bi bi-gear-fill"></i>
                         </Button>
                       </Link>
 
-                      <Button variant="danger">
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          dispatch(deleteClient(auth, client.id)).then(() => {
+                            dispatch(getClients(auth)); // o un'altra azione per ottenere i nuovi dati
+                          });
+                        }}
+                      >
                         <i className="bi bi-x-lg"></i>
                       </Button>
                     </div>

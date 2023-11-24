@@ -34,6 +34,7 @@ const AdminBoard = () => {
   const handleNameFilter = () => {
     dispatch(getClientNomeContatto(auth, nome));
   };
+
   const handleFatturatoFilter = () => {
     if (minFatturato !== "" && maxFatturato !== "") {
       dispatch(getClientRangeFatturato(auth, minFatturato, maxFatturato));
@@ -43,6 +44,7 @@ const AdminBoard = () => {
       dispatch(getClientMaxFatturato(auth, maxFatturato));
     }
   };
+
   const handleDataInserimentoFilter = () => {
     if (minDataInserimento !== "" && maxDataInserimento !== "") {
       // dispatch(get(auth, minFatturato, maxFatturato));
@@ -212,7 +214,7 @@ const AdminBoard = () => {
               <Card.Header>
                 <Nav variant="tabs" defaultActiveKey="#first">
                   <Nav.Item>
-                    <Nav.Link href="#nome" onClick={() => handleTabClick("#nome")} active>
+                    <Nav.Link href="#nome" onClick={() => handleTabClick("#nome")}>
                       Nome
                     </Nav.Link>
                   </Nav.Item>

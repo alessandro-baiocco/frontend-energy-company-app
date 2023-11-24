@@ -1,4 +1,4 @@
-import { GET_CLIENTS } from "../actions";
+import { ADD_CLIENT, GET_CLIENTS, REMOVE_CLIENT } from "../actions";
 
 const initialState = {
   content: [],
@@ -9,6 +9,16 @@ const clientReducer = (state = initialState, action) => {
     case GET_CLIENTS:
       return {
         content: action.payload,
+      };
+    case REMOVE_CLIENT:
+      return {
+        ...state,
+        content: state.content.filter((client) => client.id !== action.payload.id),
+      };
+    case ADD_CLIENT:
+      return {
+        ...state,
+        content: [...state.content, action.payload],
       };
     default:
       return state;

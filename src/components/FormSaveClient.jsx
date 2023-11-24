@@ -1,60 +1,149 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addClient } from "../redux/actions";
 
 const FormSaveClient = () => {
-  // const [savedClient, setSavedClient] = useState({ nome: "", cognome: "", email: "", password: "" });
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.userToken.content);
+
+  const [savedClient, setSavedClient] = useState({
+    ragioneSociale: "",
+    partitaIva: 0,
+    email: "",
+    fatturatoAnnuale: 0,
+    pec: "",
+    telefono: 0,
+    emailContatto: "",
+    nomeContatto: "",
+    cognomeContatto: "",
+    telefonoContatto: "",
+    formaGiuridica: "",
+    indirizzo: { via: "", cap: 0, comune: "" },
+  });
+  const [regions, setRegions] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8080/regions", {
+      headers: {
+        Authorization: "Bearer " + auth,
+      },
+    })
+      .then((resp) => {
+        if (resp.ok) return resp.json();
+      })
+      .then((regions) => {
+        setRegions(regions);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container className="justify-content-between">
       <Container className="w-50 text-white">
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Ragione Sociale</Form.Label>
-            <Form.Control type="text" placeholder="Ragione Sociale" />
+            <Form.Control
+              type="text"
+              placeholder="Ragione Sociale"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, ragioneSociale: e.target.value });
+              }}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Partita IVA</Form.Label>
-            <Form.Control type="number" placeholder="p.IVA" />
+            <Form.Control
+              type="number"
+              placeholder="p.IVA"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, partitaIva: e.target.value });
+              }}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, email: e.target.value });
+              }}
+            />
             <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Fatturato Annuale</Form.Label>
-            <Form.Control type="double" placeholder="fattura Annuale" />
+            <Form.Control
+              type="double"
+              placeholder="fattura Annuale"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, fatturatoAnnuale: e.target.value });
+              }}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Pec</Form.Label>
-            <Form.Control type="email" placeholder="Pec email" />
+            <Form.Control
+              type="email"
+              placeholder="Pec email"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, pec: e.target.value });
+              }}
+            />
             <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Telefono</Form.Label>
-            <Form.Control type="tel" placeholder="tel" />
+            <Form.Control
+              type="tel"
+              placeholder="tel"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, telefono: e.target.value });
+              }}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Nome Contatto</Form.Label>
-            <Form.Control type="text" placeholder="Nome" />
+            <Form.Control
+              type="text"
+              placeholder="Nome"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, nomeContatto: e.target.value });
+              }}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Cognome Contatto</Form.Label>
-            <Form.Control type="text" placeholder="Cognome" />
+            <Form.Control
+              type="text"
+              placeholder="Cognome"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, cognomeContatto: e.target.value });
+              }}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Forma Giuridica</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select
+              aria-label="Default select example"
+              onChange={(e) => {
+                console.log(e.target.value);
+                setSavedClient({ ...savedClient, formaGiuridica: e.target.value });
+              }}
+            >
               <option>...</option>
-              <option value="1">PA</option>
-              <option value="2">SAS</option>
-              <option value="4">SPA</option>
-              <option value="5">SRL</option>
+              <option value="PA">PA</option>
+              <option value="SAS">SAS</option>
+              <option value="SPA">SPA</option>
+              <option value="SRL">SRL</option>
             </Form.Select>
           </Form.Group>
 
@@ -72,7 +161,13 @@ const FormSaveClient = () => {
           </Form.Group>
 
           <div className="d-flex justify-content-between align items-center">
-            <Button variant="primary" type="submit" className="me-3">
+            <Button
+              variant="primary"
+              className="me-3"
+              onClick={() => {
+                dispatch(addClient(auth, savedClient));
+              }}
+            >
               salva cliente
             </Button>
             <Link to="/board">

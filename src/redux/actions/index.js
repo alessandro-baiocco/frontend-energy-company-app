@@ -4,7 +4,8 @@ export const GET_CLIENTS = "GET_CLIENTS";
 export const GET_AUTHORIZATION = "GET_AUTHORIZATION";
 export const GET_ME = "GET_ME";
 export const GET_ADDRESS = "GET_ADDRESS";
-
+export const REMOVE_CLIENT = "REMOVE_CLIENT";
+export const ADD_CLIENT = "ADD_CLIENT";
 //Utlizzo per fare il login
 
 export const postUserToken = (emailPAss) => {
@@ -144,7 +145,7 @@ export const getClientMaxFatturato = (auth, maxFatturato) => {
     }
   };
 };
-//get client maxFatturato
+//get client range
 export const getClientRangeFatturato = (auth, minFatturato, maxFatturato) => {
   return async (dispatch, getState) => {
     try {
@@ -250,6 +251,50 @@ export const getClientRangeDataInserimento = (auth, minInserimento, maxInserimen
         let myClientFetched = await resp.json();
         console.log(myClientFetched);
         dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteClient = (auth, id) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/" + id, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+        method: "DELETE",
+      });
+      if (resp.ok) {
+        console.log(resp);
+        dispatch({ type: REMOVE_CLIENT, payload: id });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const addClient = (auth, client) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/", {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+        method: "POST",
+        body: JSON.stringify(client),
+      });
+      if (resp.ok) {
+        dispatch({ type: ADD_CLIENT, payload: client });
       } else {
         console.log("error");
         alert("Errore nel reperimento dei dati clienti ");
