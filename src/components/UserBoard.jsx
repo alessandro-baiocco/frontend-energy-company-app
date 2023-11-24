@@ -81,7 +81,6 @@ const UserBoard = () => {
           </Collapse>
         </Container>
         <ClientCard />
-        <ClientCard />
       </Container>
     </>
   );

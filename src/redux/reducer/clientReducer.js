@@ -1,7 +1,7 @@
 import { GET_CLIENTS } from "../actions";
 
 const initialState = {
-  content: [],
+  content: {},
 };
 
 const clientReducer = (state = initialState, action) => {
