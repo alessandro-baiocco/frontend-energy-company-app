@@ -48,7 +48,10 @@ const PageFatture = () => {
       </Navbar>
       <FattureRender />
       <Container>
-        {fatture?.length > 0 && fatture.map((fattura, i) => <CardsFatture fattura={fattura} key={"fattura " + i} />)}
+        {fatture?.length > 0 &&
+          fatture.map((fattura, i) => (
+            <CardsFatture fattura={fattura} role={me?.role} key={"fattura " + i} auth={auth} />
+          ))}
       </Container>
     </>
   );

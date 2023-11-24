@@ -7,6 +7,8 @@ export const GET_ADDRESS = "GET_ADDRESS";
 export const REMOVE_CLIENT = "REMOVE_CLIENT";
 export const ADD_CLIENT = "ADD_CLIENT";
 export const FETCH_FATTURE = "FETCH_FATTURE";
+export const DELETE_FATTURE = "DELETE_FATTURE";
+export const PUT_FATTURE = "PUT_FATTURE";
 //Utlizzo per fare il login
 
 export const postUserToken = (emailPAss) => {
@@ -409,6 +411,53 @@ export const filterImportoFatture = (url, auth, minImporto, maxImporto) => {
         const fatture = await resp.json();
         console.log(fatture);
         dispatch({ type: FETCH_FATTURE, payload: fatture });
+      } else {
+        console.log(resp.status);
+        alert("errore " + resp.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+// delete fattura
+
+export const deleteFattura = (auth, id) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/fattura/" + id, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        dispatch({ type: DELETE_FATTURE, payload: id });
+      } else {
+        console.log(resp.status);
+        alert("errore " + resp.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//put fattura
+export const putFattura = (auth, body, id) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/fattura/" + id, {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: "Bearer " + auth,
+          "Content-Type": "application/json",
+        },
+      });
+      if (resp.ok) {
+        dispatch({ type: PUT_FATTURE, payload: id });
       } else {
         console.log(resp.status);
         alert("errore " + resp.status);
