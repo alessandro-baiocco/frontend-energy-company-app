@@ -3,30 +3,35 @@ import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addClient } from "../redux/actions";
 
 const FormSaveClient = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector((state) => state.userToken.content);
 
   const [savedClient, setSavedClient] = useState({
     ragioneSociale: "",
-    partitaIva: 0,
+    partitaIva: "",
     email: "",
     fatturatoAnnuale: 0,
     pec: "",
-    telefono: 0,
+    telefono: "",
     emailContatto: "",
     nomeContatto: "",
     cognomeContatto: "",
     telefonoContatto: "",
     formaGiuridica: "",
-    indirizzo: { via: "", cap: 0, comune: "" },
+    indirizzo: {
+      via: "",
+      cap: 0,
+      comune: "o",
+    },
   });
   const [regions, setRegions] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8080/regions", {
+    fetch("http://localhost:8080/regions/provincie", {
       headers: {
         Authorization: "Bearer " + auth,
       },
@@ -34,8 +39,8 @@ const FormSaveClient = () => {
       .then((resp) => {
         if (resp.ok) return resp.json();
       })
-      .then((regions) => {
-        setRegions(regions);
+      .then((reg) => {
+        setRegions(reg);
       })
       .catch((err) => {
         console.log(err);
@@ -80,6 +85,17 @@ const FormSaveClient = () => {
             <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
+            <Form.Label>Email Contatto</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, emailContatto: e.target.value });
+              }}
+            />
+            <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Fatturato Annuale</Form.Label>
             <Form.Control
               type="double"
@@ -107,6 +123,16 @@ const FormSaveClient = () => {
               placeholder="tel"
               onChange={(e) => {
                 setSavedClient({ ...savedClient, telefono: e.target.value });
+              }}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Telefono Contatto</Form.Label>
+            <Form.Control
+              type="tel"
+              placeholder="tel"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, telefonoContatto: e.target.value });
               }}
             />
           </Form.Group>
@@ -149,15 +175,36 @@ const FormSaveClient = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Via</Form.Label>
-            <Form.Control type="text" placeholder="via" />
+            <Form.Control
+              type="text"
+              placeholder="via"
+              onChange={(e) => {
+                console.log(e.target.value);
+                setSavedClient({ ...savedClient, indirizzo: { ...savedClient.indirizzo, via: e.target.value } });
+              }}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>CAP</Form.Label>
-            <Form.Control type="number" placeholder="cap" />
+            <Form.Control
+              type="number"
+              placeholder="cap"
+              onChange={(e) => {
+                console.log(e.target.value);
+                setSavedClient({ ...savedClient, indirizzo: { ...savedClient.indirizzo, cap: e.target.value } });
+              }}
+            />
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Comune</Form.Label>
-            <Form.Control type="text" placeholder="comune" />
+            <Form.Control
+              type="text"
+              placeholder="comune"
+              onChange={(e) => {
+                setSavedClient({ ...savedClient, indirizzo: { ...savedClient.indirizzo, comune: e.target.value } });
+              }}
+            />
           </Form.Group>
 
           <div className="d-flex justify-content-between align items-center">
@@ -165,7 +212,9 @@ const FormSaveClient = () => {
               variant="primary"
               className="me-3"
               onClick={() => {
-                dispatch(addClient(auth, savedClient));
+                dispatch(addClient(auth, savedClient)).then(() => {
+                  navigate("/board");
+                });
               }}
             >
               salva cliente

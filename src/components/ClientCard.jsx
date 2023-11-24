@@ -61,7 +61,7 @@ const ClientCard = () => {
                   </div>
                   {role === "ADMIN" && (
                     <div className="col-md-2">
-                      <Link to={{ pathname: "/update-client", state: { key: client.id } }}>
+                      <Link to={`/update-client?id=${client.id}`}>
                         <Button variant="primary me-2">
                           <i className="bi bi-gear-fill"></i>
                         </Button>
