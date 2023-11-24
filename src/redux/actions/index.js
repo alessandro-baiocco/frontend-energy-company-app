@@ -35,17 +35,19 @@ export const postUserToken = (emailPAss) => {
           } else {
             console.log("error");
 
-            alert("Errore nel reperimento dei dati utente ");
+            alert("resp.ok", resp.ok);
           }
         } catch (error) {
           console.log(error);
+          alert("errore reperimento utente");
         }
       } else {
         console.log("error");
-        alert("Errore nel reperimento del token ");
+        alert("email o password sbagliati!");
       }
     } catch (error) {
       console.log(error);
+      alert("email o password sbagliati!");
     }
   };
 };
@@ -63,7 +65,7 @@ export const getClients = (auth) => {
       if (resp.ok) {
         let myClientFetched = await resp.json();
         console.log(myClientFetched);
-        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched.content });
       } else {
         console.log("error");
         alert("Errore nel reperimento dei dati clienti ");
@@ -90,6 +92,142 @@ export const getAddress = (auth) => {
       } else {
         console.log("error");
         alert("Errore nel reperimento degli address ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//get client minFatturato
+export const getClientMinFatturato = (auth, minFatturato) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/minfatturato?minFatturato=" + minFatturato, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//get client maxFatturato
+export const getClientMaxFatturato = (auth, maxFatturato) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/maxfatturato?maxFatturato=" + maxFatturato, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+//get client maxFatturato
+export const getClientRangeFatturato = (auth, minFatturato, maxFatturato) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch(
+        "http://localhost:8080/clients/fatturato?minFatturato=" + minFatturato + "&maxFatturato=" + maxFatturato,
+        {
+          headers: {
+            Authorization: "Bearer " + auth,
+          },
+        }
+      );
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//get client nome
+export const getClientNomeContatto = (auth, name) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/nomeContatto?name=" + name, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export const getClientMinDataInserimento = (auth, minDataInserimento) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/minInserimento?to=" + minDataInserimento, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+export const getClientMaxDataInserimento = (auth, maxDataInserimento) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/clients/maxInserimento?from=" + maxDataInserimento, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        let myClientFetched = await resp.json();
+        console.log(myClientFetched);
+        dispatch({ type: GET_CLIENTS, payload: myClientFetched });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
       }
     } catch (error) {
       console.log(error);

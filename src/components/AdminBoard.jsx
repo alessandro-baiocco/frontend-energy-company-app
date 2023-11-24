@@ -1,27 +1,56 @@
 import { Button, Card, Collapse, Container, Form, Image, Nav, Navbar, Row } from "react-bootstrap";
 import ClientCard from "./ClientCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getClientMaxDataInserimento,
+  getClientMaxFatturato,
+  getClientMinDataInserimento,
+  getClientMinFatturato,
+  getClientNomeContatto,
+  getClientRangeFatturato,
+  getClients,
+} from "../redux/actions";
 
 const AdminBoard = () => {
   const [open, setOpen] = useState(false);
   const me = useSelector((state) => state.me.content);
   const auth = useSelector((state) => state.userToken.content);
-  const [activeTab, setActiveTab] = useState("#first");
-
+  const [activeTab, setActiveTab] = useState("#nome");
   const [minFatturato, setMinFatturato] = useState(0);
   const [maxFatturato, setMaxFatturato] = useState(0);
   const [minDataInserimento, setMinDataInserimento] = useState("");
   const [maxDataInserimento, setMaxDataInserimento] = useState("");
   const [minDataUltimoContatto, setMinDataUltimoContatto] = useState("");
   const [maxDataUltimoContatto, setMaxDataUltimoContatto] = useState("");
+  const [nome, setNome] = useState("");
 
   const dispatch = useDispatch();
-  const handleSumbit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    dispatch(getClients(auth));
+  }, []);
 
-    // dispatch();
+  const handleNameFilter = () => {
+    dispatch(getClientNomeContatto(auth, nome));
+  };
+  const handleFatturatoFilter = () => {
+    if (minFatturato !== "" && maxFatturato !== "") {
+      dispatch(getClientRangeFatturato(auth, minFatturato, maxFatturato));
+    } else if (minFatturato !== "") {
+      dispatch(getClientMinFatturato(auth, minFatturato));
+    } else if (maxFatturato !== "") {
+      dispatch(getClientMaxFatturato(auth, maxFatturato));
+    }
+  };
+  const handleDataInserimentoFilter = () => {
+    if (minDataInserimento !== "" && maxDataInserimento !== "") {
+      // dispatch(get(auth, minFatturato, maxFatturato));
+    } else if (minDataInserimento !== "") {
+      dispatch(getClientMinDataInserimento(auth, minDataInserimento));
+    } else if (maxDataInserimento !== "") {
+      dispatch(getClientMaxDataInserimento(auth, maxDataInserimento));
+    }
   };
 
   const handleTabClick = (tab) => {
@@ -35,10 +64,23 @@ const AdminBoard = () => {
           <>
             <Form.Group className="mb-3">
               <Form.Label className="text-white">search name</Form.Label>
-              <Form.Control type="text" placeholder="search name" />
+              <Form.Control
+                type="text"
+                placeholder="search name"
+                onChange={(e) => {
+                  setNome(e.target.value);
+                }}
+              />
             </Form.Group>
 
-            <Button variant="primary">Submit</Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleNameFilter();
+              }}
+            >
+              Submit
+            </Button>
           </>
         );
       case "#fatturato":
@@ -47,11 +89,33 @@ const AdminBoard = () => {
             <Form.Group className="mb-3">
               <Form.Label className="text-white">Fatturato Annuale</Form.Label>
               <div className="d-flex">
-                <Form.Control className="me-3" type="number" placeholder="min" />
-                <Form.Control type="number" placeholder="max" />
+                <Form.Control
+                  className="me-3"
+                  type="number"
+                  placeholder="min"
+                  onChange={(e) => {
+                    setMinFatturato(e.target.value);
+                  }}
+                />
+                <Form.Control
+                  type="number"
+                  placeholder="max"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+
+                    setMaxFatturato(e.target.value);
+                  }}
+                />
               </div>
             </Form.Group>
-            <Button variant="primary">Submit</Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleFatturatoFilter();
+              }}
+            >
+              Submit
+            </Button>
           </>
         );
       case "#dataInserimento":
@@ -61,9 +125,26 @@ const AdminBoard = () => {
               <Form.Label className="text-white">Data di inserimento</Form.Label>
               <div className="d-flex align-items-center">
                 <Form.Label className="text-white me-2">DA:</Form.Label>
-                <Form.Control className="me-3" type="date" placeholder="min" />
+                <Form.Control
+                  className="me-3"
+                  type="date"
+                  placeholder="min"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+
+                    setMinDataInserimento(e.target.value);
+                  }}
+                />
                 <Form.Label className="text-white me-2">A:</Form.Label>
-                <Form.Control type="date" placeholder="max" />
+                <Form.Control
+                  type="date"
+                  placeholder="max"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+
+                    setMaxDataInserimento(e.target.value);
+                  }}
+                />
               </div>
             </Form.Group>
             <Button variant="primary">Submit</Button>
@@ -124,7 +205,7 @@ const AdminBoard = () => {
               <Card.Header>
                 <Nav variant="tabs" defaultActiveKey="#first">
                   <Nav.Item>
-                    <Nav.Link href="#nome" onClick={() => handleTabClick("#nome")}>
+                    <Nav.Link href="#nome" onClick={() => handleTabClick("#nome")} active>
                       Nome
                     </Nav.Link>
                   </Nav.Item>
@@ -147,51 +228,6 @@ const AdminBoard = () => {
               </Card.Header>
               <Card.Body>{renderContent()}</Card.Body>
             </Card>
-            {/* <Form id="collapse-filter-form">
-              <Form.Select aria-label="Default select example">
-                <option>Ordina per:</option>
-                <option value="1">Nome</option>
-                <option value="2">Fatturato Annuale</option>
-                <option value="4">Data di Inserimento</option>
-                <option value="5">Data di ultimo contatto</option>
-                <option value="6">provincia della sede legale</option>
-              </Form.Select>
-              <h4 className="text-white text-start mt-3">Filtre per:</h4>
-              <Form.Group className="mb-3">
-                <Form.Label className="text-white">Fatturato Annuale</Form.Label>
-                <div className="d-flex">
-                  <Form.Control className="me-3" type="number" placeholder="min" />
-                  <Form.Control type="number" placeholder="max" />
-                </div>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label className="text-white">Data di ultimo contatto</Form.Label>
-                <div className="d-flex align-items-center">
-                  <Form.Label className="text-white me-2">DA:</Form.Label>
-                  <Form.Control className="me-3" type="date" placeholder="min" />
-                  <Form.Label className="text-white me-2">A:</Form.Label>
-                  <Form.Control type="date" placeholder="max" />
-                </div>
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label className="text-white">Data di inserimento</Form.Label>
-                <div className="d-flex align-items-center">
-                  <Form.Label className="text-white me-2">DA:</Form.Label>
-                  <Form.Control className="me-3" type="date" placeholder="min" />
-                  <Form.Label className="text-white me-2">A:</Form.Label>
-                  <Form.Control type="date" placeholder="max" />
-                </div>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label className="text-white">search name</Form.Label>
-                <Form.Control type="text" placeholder="search name" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form> */}
           </Collapse>
         </Container>
         <ClientCard />
