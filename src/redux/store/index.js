@@ -7,6 +7,7 @@ import userReducer from "../reducer/userReducer";
 import clientReducer from "../reducer/clientReducer";
 import meReducer from "../reducer/me";
 import addressReducer from "../reducer/addressReducer";
+import fattureReducer from "../reducer/fatturaReducer";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   clients: clientReducer,
   address: addressReducer,
   me: meReducer,
+  fatture: fattureReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

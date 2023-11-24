@@ -193,7 +193,10 @@ const AdminBoard = () => {
               <Link to="/add-client" className="me-2">
                 Save Client
               </Link>
-              <Link to="/me">My Profile</Link>
+              <Link to="/me" className="me-2">
+                My Profile
+              </Link>
+              <Link to="/fatture">fatture</Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

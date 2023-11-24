@@ -6,6 +6,7 @@ export const GET_ME = "GET_ME";
 export const GET_ADDRESS = "GET_ADDRESS";
 export const REMOVE_CLIENT = "REMOVE_CLIENT";
 export const ADD_CLIENT = "ADD_CLIENT";
+export const FETCH_FATTURE = "FETCH_FATTURE";
 //Utlizzo per fare il login
 
 export const postUserToken = (emailPAss) => {
@@ -298,6 +299,119 @@ export const addClient = (auth, client) => {
       } else {
         console.log("error");
         alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+// fetch fatture
+export const fetchFattura = (auth, id) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch("http://localhost:8080/fattura", {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        const fatture = await resp.json();
+        console.log(fatture);
+        dispatch({ type: FETCH_FATTURE, payload: fatture.content });
+      } else {
+        console.log("error");
+        alert("Errore nel reperimento dei dati clienti ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//fetch fatture da ID cliente , stato
+
+export const filterFatture = (url, auth, dato) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch(url + dato, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        const fatture = await resp.json();
+        console.log(fatture);
+        dispatch({ type: FETCH_FATTURE, payload: fatture });
+      } else {
+        console.log(resp.status);
+        alert("errore " + resp.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const filterDataFatture = (url, auth, minData, maxData) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch(url + "?minData=" + minData + "&maxData=" + maxData, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        const fatture = await resp.json();
+        console.log(fatture);
+        dispatch({ type: FETCH_FATTURE, payload: fatture });
+      } else {
+        console.log(resp.status);
+        alert("errore " + resp.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const filterAnnoFatture = (url, auth, minAnno, maxAnno) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch(url + "?minAnno=" + minAnno + "&maxAnno=" + maxAnno, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        const fatture = await resp.json();
+        console.log(fatture);
+        dispatch({ type: FETCH_FATTURE, payload: fatture });
+      } else {
+        console.log(resp.status);
+        alert("errore " + resp.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const filterImportoFatture = (url, auth, minImporto, maxImporto) => {
+  return async (dispatch, getState) => {
+    try {
+      let resp = await fetch(url + "?minImporto=" + minImporto + "&maxImporto=" + maxImporto, {
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (resp.ok) {
+        const fatture = await resp.json();
+        console.log(fatture);
+        dispatch({ type: FETCH_FATTURE, payload: fatture });
+      } else {
+        console.log(resp.status);
+        alert("errore " + resp.status);
       }
     } catch (error) {
       console.log(error);
